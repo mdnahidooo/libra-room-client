@@ -4,11 +4,12 @@ export const fetchRooms = async () => {
     const data = await res.json();
 
     return data || [];
-}
+};
 
 export const fetchSingleRoom = async (roomId) => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/rooms/${roomId}`);
     const data = await res.json();
 
     return data || [];
-}
+};
+
