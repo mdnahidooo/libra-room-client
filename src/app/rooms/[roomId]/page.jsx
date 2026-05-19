@@ -1,10 +1,12 @@
 
 import Image from "next/image";
-import Link from "next/link";
-import { Card, Chip, Button } from "@heroui/react";
+import { Card, Chip} from "@heroui/react";
 import { FaUsers } from "react-icons/fa";
 import { MdMeetingRoom, MdOutlineAttachMoney } from "react-icons/md";
 import { fetchRooms, fetchSingleRoom } from "@/lib/data/data";
+import BookingModal from "@/components/BookingModal";
+
+
 
 
 
@@ -147,13 +149,9 @@ const RoomDetailPage = async ({ params }) => {
                                 {room.bookingCount || 0} bookings completed
                             </p>
 
-                            <Link href={`/rooms/${room._id}/book`}>
-                                <Button
-                                    className="w-full bg-[#06BBCC] hover:bg-[#059aad] text-white py-6 text-lg font-semibold rounded-2xl shadow-lg hover:shadow-cyan-200 transition-all active:scale-[0.98]"
-                                >
-                                    Book Now
-                                </Button>
-                            </Link>
+                            
+<BookingModal room={room}></BookingModal>
+                            
 
                             <p className="text-xs text-center text-gray-500 mt-3">
                                 Instant booking • No conflicts • Secure system

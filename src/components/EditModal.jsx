@@ -54,7 +54,7 @@ export function EditModal({ room }) {
                 toast.success("Room updated successfully!");
 
                 router.refresh();
-                router.push("/rooms");
+                router.push("/");
             }
             else {
                 toast.error("No changes detected!");
