@@ -80,7 +80,7 @@ export default function RoomCard({ room }) {
 
                     <div>
                         <p className="text-xs text-gray-500">Hourly Rate</p>
-                        <p className="text-lg font-semibold text-[#06BBCC]">
+                        <p className="text-3xl font-semibold text-[#06BBCC]">
                             ${room.hourlyRate}
                             <span className="text-xs text-gray-500 font-normal">
                                 /hr

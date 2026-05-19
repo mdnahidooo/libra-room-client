@@ -8,6 +8,7 @@ import {
 } from "@heroui/react";
 import { Trash2, Eye, Pencil } from "lucide-react";
 import DeleteRoomModal from "@/components/DeleteRoomModal";
+import { EditModal } from "@/components/EditModal";
 
 const MyListingsPage = async () => {
     const rooms = await fetchRooms();
@@ -91,16 +92,9 @@ const MyListingsPage = async () => {
                                                         </Button>
                                                     </Link>
 
-                                                    <Link href={`/rooms/${room._id}/edit`}>
-                                                        <Button
-                                                            size="sm"
-                                                            className="bg-slate-100 text-[#3F4255] hover:bg-slate-200"
-                                                        >
-                                                            <Pencil size={16} />
-                                                            Edit
-                                                        </Button>
-                                                    </Link>
+                                            
 
+                                                    <EditModal room={room}></EditModal>
 
                                                     <DeleteRoomModal room={room}></DeleteRoomModal>
 
