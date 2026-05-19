@@ -20,8 +20,11 @@ import {
     TextField,
 } from "@heroui/react";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+
 
 const AddRoomPage = () => {
+    const router = useRouter();
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -51,11 +54,17 @@ const AddRoomPage = () => {
 
             // console.log("SERVER RESPONSE:", data);
 
-            toast.success("Room added successfully!");
+            if (data?._id || data?.insertedId) {
+                toast.success("Room added successfully!");
+                router.push("/rooms");  // ✅ redirect
+            } else {
+                toast.error("Failed to add room!");
+            }
+            
 
         } catch (error) {
 
-            console.log(error);
+            // console.log(error);
 
             toast.error("Something went wrong!");
         }

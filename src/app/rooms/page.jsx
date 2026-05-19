@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { motion } from "framer-motion";
 import RoomCard from "@/components/RoomCard";
+import { FaHome } from "react-icons/fa";
 
 export default function RoomsPage() {
     const [rooms, setRooms] = useState([]);
@@ -112,8 +113,26 @@ export default function RoomsPage() {
 
             {/* EMPTY STATE */}
             {paginatedRooms.length === 0 && (
-                <div className="text-center mt-20 text-[#3F4255]">
-                    No rooms found.
+                <div className="flex flex-col items-center justify-center mt-20 text-center">
+
+                    <div className="w-16 h-16 rounded-2xl bg-[#F0FBFC] flex items-center justify-center mb-4 border border-[#d8edf0]">
+                        <span className="text-2xl text-[#014468]"><FaHome /></span>
+                    </div>
+
+                    <h3 className="text-xl font-semibold text-[#3F4255]">
+                        No Rooms Found
+                    </h3>
+
+                    <p className="text-sm text-[#667085] mt-2 max-w-md">
+                        We couldn’t find any study rooms at the moment. Try adjusting your filters or check back later.
+                    </p>
+
+                    <button
+                        onClick={() => window.location.reload()}
+                        className="mt-6 px-6 py-3 rounded-full bg-[#14B8A6] text-white font-semibold shadow-md hover:bg-[#0F766E] transition"
+                    >
+                        Refresh
+                    </button>
                 </div>
             )}
 

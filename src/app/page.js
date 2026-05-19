@@ -8,9 +8,9 @@ export default function Home() {
   return (
     <div>
       <Banner></Banner>
-      <WhyChooseLibraRoom></WhyChooseLibraRoom>
-      <Featured></Featured>
       <HowItWorks></HowItWorks>
+      <Featured></Featured>
+      <WhyChooseLibraRoom></WhyChooseLibraRoom>
     </div>
   );
 }
