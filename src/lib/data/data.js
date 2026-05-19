@@ -13,3 +13,10 @@ export const fetchSingleRoom = async (roomId) => {
     return data || [];
 };
 
+export const fetchFeaturedRoom = async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/featured`);
+    const data = await res.json();
+
+    return data || [];
+};
+
