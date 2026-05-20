@@ -20,3 +20,10 @@ export const fetchFeaturedRoom = async () => {
     return data || [];
 };
 
+
+export const fetchBookings = async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking`);
+    const data = await res.json();
+
+    return data || [];
+};
