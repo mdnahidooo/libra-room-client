@@ -1,21 +1,21 @@
 import React from "react";
-import { Card, Chip, Button } from "@heroui/react";
-import {
-    CalendarDays,
-    Clock3,
-    XCircle,
-    DollarSign,
-    MapPinned,
-    Users,
-} from "lucide-react";
+import { Chip, Button } from "@heroui/react";
 import Link from "next/link";
 import Image from "next/image";
 import { fetchBookings } from "@/lib/data/data";
 import DeleteBooking from "@/components/DeleteBooking";
 import { Eye } from "@gravity-ui/icons";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+
 
 const MyBookingsPage = async () => {
-    const bookings = await fetchBookings();
+
+    const { token } = await auth.api.getToken({
+        headers: await headers()
+    })
+
+    const bookings = await fetchBookings(token);
 
     const isFutureBooking = (date, startTime) => {
         const now = new Date();

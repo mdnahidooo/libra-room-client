@@ -6,8 +6,12 @@ export const fetchRooms = async () => {
     return data || [];
 };
 
-export const fetchSingleRoom = async (roomId) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/rooms/${roomId}`);
+export const fetchSingleRoom = async (roomId, token) => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/rooms/${roomId}`, {
+        headers: {
+            authorization: `Bearer ${token}` || ""
+        }
+    });
     const data = await res.json();
 
     return data || [];
@@ -21,8 +25,12 @@ export const fetchFeaturedRoom = async () => {
 };
 
 
-export const fetchBookings = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking`);
+export const fetchBookings = async (token) => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking`, {
+        headers: {
+            authorization: `Bearer ${token}` || ""
+        }
+    });
     const data = await res.json();
 
     return data || [];
