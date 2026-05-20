@@ -11,6 +11,8 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { fetchBookings } from "@/lib/data/data";
+import DeleteBooking from "@/components/DeleteBooking";
+import { Eye } from "@gravity-ui/icons";
 
 const MyBookingsPage = async () => {
     const bookings = await fetchBookings();
@@ -131,15 +133,13 @@ const MyBookingsPage = async () => {
                                 <div className="flex items-center gap-2">
 
                                     <Link href={`/rooms/${booking.roomId}`}>
-                                        <button className="h-11 px-5 rounded-2xl bg-[#14B8A6] hover:bg-[#0F766E] text-white text-sm font-semibold transition-all">
-                                            View
-                                        </button>
+                                        <Button className="rounded-2xl bg-[#14B8A6] hover:bg-[#0F766E] text-white text-sm font-semibold transition-all">
+                                           <Eye></Eye> View
+                                        </Button>
                                     </Link>
 
                                     {status === "confirmed" && isFuture && (
-                                        <button className="h-11 px-4 rounded-2xl bg-red-50 hover:bg-red-100 text-red-600 text-sm font-semibold transition-all">
-                                            Cancel
-                                        </button>
+                                        <DeleteBooking bookingId={booking._id}></DeleteBooking>
                                     )}
 
                                 </div>
