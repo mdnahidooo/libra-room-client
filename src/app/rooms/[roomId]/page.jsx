@@ -8,8 +8,6 @@ import BookingModal from "@/components/BookingModal";
 
 
 
-
-
 export async function generateMetadata({ params }) {
     const rooms = await fetchRooms();
 
@@ -35,6 +33,9 @@ export async function generateMetadata({ params }) {
         ].join(", "),
     };
 }
+
+
+
 
 const RoomDetailPage = async ({ params }) => {
     const { roomId } = await params;

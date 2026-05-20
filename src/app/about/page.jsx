@@ -1,8 +1,12 @@
-"use client";
+
 
 import Image from "next/image";
-import { Button } from "@heroui/react";
-import { ArrowRight } from "lucide-react";
+
+export const metadata = {
+    title: "About | LibraRoom",
+    description:
+        "Learn more about LibraRoom, a modern platform for booking quiet and productive study rooms in libraries.",
+};
 
 export default function AboutSection() {
     return (
