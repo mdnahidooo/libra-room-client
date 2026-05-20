@@ -22,15 +22,17 @@ import { BiEdit } from "react-icons/bi";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
-export function EditModal({ room }) {
+export function EditModal({ room, token }) {
 
     const router = useRouter();
 
     const onSubmit = async (e) => {
         e.preventDefault();
 
-        const formData = new FormData(e.currentTarget);
+        //for jwt:
 
+
+        const formData = new FormData(e.currentTarget);
         const updatedRoom = Object.fromEntries(formData.entries());
 
         updatedRoom.amenities = formData.getAll("amenities");
@@ -43,6 +45,7 @@ export function EditModal({ room }) {
                     method: "PATCH",
                     headers: {
                         "content-type": "application/json",
+                        authorization: `Bearer ${token}` || ""
                     },
                     body: JSON.stringify(updatedRoom),
                 }

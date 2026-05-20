@@ -9,8 +9,16 @@ import {
 import { Trash2, Eye, Pencil } from "lucide-react";
 import DeleteRoomModal from "@/components/DeleteRoomModal";
 import { EditModal } from "@/components/EditModal";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 const MyListingsPage = async () => {
+
+    //for jwt:
+    const { token } = await auth.api.getToken({
+            headers: await headers()
+        })
+
     const rooms = await fetchRooms();
     const myRooms = rooms;
 
@@ -94,9 +102,9 @@ const MyListingsPage = async () => {
 
                                             
 
-                                                    <EditModal room={room}></EditModal>
+                                                    <EditModal room={room} token={token}></EditModal>
 
-                                                    <DeleteRoomModal room={room}></DeleteRoomModal>
+                                                    <DeleteRoomModal room={room} token={token}></DeleteRoomModal>
 
 
 

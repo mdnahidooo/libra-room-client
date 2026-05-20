@@ -8,10 +8,10 @@ import {
 
 
 
-export default function DeleteRoomModal({ room }) {
+export default function DeleteRoomModal({ room, token }) {
 
     const handleDelete = async () => {
-        await deleteRoom(room._id);
+        await deleteRoom(room._id, token);
         
     };
 

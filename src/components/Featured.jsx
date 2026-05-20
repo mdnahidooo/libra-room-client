@@ -3,7 +3,9 @@ import React from "react";
 import RoomCard from "@/components/RoomCard"; // adjust path if needed
 import Link from "next/link";
 
+
 const Featured = async () => {
+
     const featuredRooms = await fetchFeaturedRoom();
 
     return (
