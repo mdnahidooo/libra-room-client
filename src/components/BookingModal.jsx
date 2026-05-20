@@ -17,11 +17,22 @@ import {
 
 import { CalendarDays, Clock3, NotebookPen } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 const BookingModal = ({ room }) => {
-
+    const router = useRouter();
+    
     const { data: session } = authClient.useSession();
     const user = session?.user;
+
+    const handleRedirectToSignin = () => {
+
+        if (!user) {
+            router.push("/signin");
+            return;
+        }
+    };
+
 
     const {
         _id,
@@ -85,11 +96,19 @@ const BookingModal = ({ room }) => {
         }
     };
 
+    const handleRedirectAfterConfirmBook = () => {
+
+        if (user) {
+            router.push("/my-bookings");
+            return;
+        }
+    };
+
     return (
         <Modal>
 
             {/* OPEN BUTTON */}
-            <Button className="w-full bg-[#06BBCC] hover:bg-[#059aad] text-white py-6 text-lg font-semibold rounded-2xl shadow-lg hover:shadow-cyan-200 transition-all active:scale-[0.98]">
+            <Button onClick={handleRedirectToSignin} className="w-full bg-[#06BBCC] hover:bg-[#059aad] text-white py-6 text-lg font-semibold rounded-2xl shadow-lg hover:shadow-cyan-200 transition-all active:scale-[0.98]">
                 Book Now
             </Button>
 
@@ -261,6 +280,7 @@ const BookingModal = ({ room }) => {
                                             </Button>
 
                                             <Button
+                                                onClick={handleRedirectAfterConfirmBook}
                                                 type="submit"
                                                 className="rounded-2xl bg-[#14B8A6] hover:bg-[#0F766E] text-white px-8 py-3 font-semibold shadow-lg shadow-teal-200/50 transition-all duration-300"
                                             >

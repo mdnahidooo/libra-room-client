@@ -12,6 +12,7 @@ export default function NavLinks({ onClick }) {
         { name: "Add Room", path: "/add-room" },
         { name: "My Listings", path: "/my-listings" },
         { name: "My Bookings", path: "/my-bookings" },
+        { name: "About Us", path: "/about" },
     ];
 
     const isActive = (path) => pathname === path;

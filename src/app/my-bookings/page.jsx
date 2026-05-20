@@ -17,9 +17,14 @@ import { Eye } from "@gravity-ui/icons";
 const MyBookingsPage = async () => {
     const bookings = await fetchBookings();
 
-    const isFutureBooking = (date) => {
-        return new Date(date).getTime() >= new Date().setHours(0, 0, 0, 0);
+    const isFutureBooking = (date, startTime) => {
+        const now = new Date();
+
+        const bookingDateTime = new Date(`${date}T${startTime}`);
+
+        return bookingDateTime > now;
     };
+    
 
     return (
         <div className="min-h-screen bg-[#F4FCFD] px-4 py-10">
@@ -138,10 +143,7 @@ const MyBookingsPage = async () => {
                                         </Button>
                                     </Link>
 
-                                    {status === "confirmed" && isFuture && (
-                                        <DeleteBooking bookingId={booking._id}></DeleteBooking>
-                                    )}
-
+                                    {true && <DeleteBooking bookingId={booking._id} />}
                                 </div>
 
                             </li>

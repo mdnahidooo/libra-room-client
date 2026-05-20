@@ -1,6 +1,6 @@
 
 import Image from "next/image";
-import { Card, Chip} from "@heroui/react";
+import { Card, Chip } from "@heroui/react";
 import { FaUsers } from "react-icons/fa";
 import { MdMeetingRoom, MdOutlineAttachMoney } from "react-icons/md";
 import { fetchRooms, fetchSingleRoom } from "@/lib/data/data";
@@ -149,9 +149,9 @@ const RoomDetailPage = async ({ params }) => {
                                 {room.bookingCount || 0} bookings completed
                             </p>
 
-                            
-<BookingModal room={room}></BookingModal>
-                            
+
+                            <BookingModal room={room}></BookingModal>
+
 
                             <p className="text-xs text-center text-gray-500 mt-3">
                                 Instant booking • No conflicts • Secure system

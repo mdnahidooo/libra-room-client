@@ -91,7 +91,7 @@ export default function RoomCard({ room }) {
                     <Link href={`/rooms/${room._id}`}>
                         <Button
                             size="sm"
-                            className="bg-[#06BBCC] text-white hover:bg-[#0499aa] rounded-lg"
+                            className="bg-[#014468] text-white hover:bg-[#0499aa] rounded-lg"
                         >
                             View Details
                         </Button>
