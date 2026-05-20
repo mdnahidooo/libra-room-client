@@ -2,29 +2,26 @@ import React from "react";
 import { Chip, Button } from "@heroui/react";
 import Link from "next/link";
 import Image from "next/image";
-import { fetchBookings } from "@/lib/data/data";
-import DeleteBooking from "@/components/DeleteBooking";
+import CancelBooking from "@/components/CancelBooking";
 import { Eye } from "@gravity-ui/icons";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { fetchBookings } from "@/lib/data/data";
 
 
 const MyBookingsPage = async () => {
 
-    const { token } = await auth.api.getToken({
-        headers: await headers()
-    })
+    // const { token } = await auth.api.getToken({
+    //     headers: await headers(),
+    // });
 
-    const bookings = await fetchBookings(token);
+    const bookings = await fetchBookings();
+
+    console.log(bookings);
 
     const isFutureBooking = (date, startTime) => {
         const now = new Date();
-
         const bookingDateTime = new Date(`${date}T${startTime}`);
-
         return bookingDateTime > now;
     };
-    
 
     return (
         <div className="min-h-screen bg-[#F4FCFD] px-4 py-10">
@@ -35,7 +32,6 @@ const MyBookingsPage = async () => {
                     <h1 className="text-3xl md:text-5xl font-black text-[#3F4255]">
                         My Bookings
                     </h1>
-
                     <p className="text-sm text-[#667085] mt-2">
                         Manage your booked study rooms
                     </p>
@@ -50,11 +46,9 @@ const MyBookingsPage = async () => {
 
                     {bookings.map((booking, index) => {
 
-                        const isFuture = isFutureBooking(booking.date);
-                        const status = booking.status ?? "confirmed";
+                        const status = booking.status || "confirmed";
 
                         return (
-
                             <li
                                 key={booking._id}
                                 className="list-row px-5 py-5 border-t border-[#eef7f8] hover:bg-[#F8FEFF] transition-all duration-300"
@@ -68,8 +62,8 @@ const MyBookingsPage = async () => {
                                 {/* IMAGE */}
                                 <div>
                                     <Image
-                                        src={booking.image}
-                                        alt={booking.name}
+                                        src={booking.image || "https://via.placeholder.com/70"}
+                                        alt={booking.name || "room"}
                                         width={70}
                                         height={70}
                                         className="size-16 rounded-2xl object-cover border border-[#d8edf0]"
@@ -79,7 +73,6 @@ const MyBookingsPage = async () => {
                                 {/* CONTENT */}
                                 <div className="list-col-grow">
 
-                                    {/* TITLE */}
                                     <div className="flex flex-wrap items-center gap-2">
 
                                         <h2 className="font-black text-[#3F4255] text-lg">
@@ -99,12 +92,10 @@ const MyBookingsPage = async () => {
 
                                     </div>
 
-                                    {/* DATE */}
                                     <div className="text-xs uppercase font-bold tracking-wide text-[#667085] mt-1">
                                         {new Date(booking.date).toDateString()}
                                     </div>
 
-                                    {/* INFO */}
                                     <div className="flex flex-wrap items-center gap-2 mt-3">
 
                                         <div className="px-3 py-1 rounded-full bg-[#F0FBFC] border border-[#d8edf0] text-xs font-semibold text-[#3F4255]">
@@ -119,6 +110,10 @@ const MyBookingsPage = async () => {
                                             {booking.startTime} - {booking.endTime}
                                         </div>
 
+                                        <div className="px-3 py-1 rounded-full bg-[#ECFEFF] border border-[#99F6E4] text-xs font-bold text-[#0F766E]">
+                                            $ {booking.totalPrice || 0}
+                                        </div>
+
                                     </div>
 
                                 </div>
@@ -128,9 +123,8 @@ const MyBookingsPage = async () => {
                                     <span className="text-[11px] uppercase tracking-wider text-[#14B8A6] font-bold">
                                         Total
                                     </span>
-
                                     <h2 className="text-2xl font-black text-[#14B8A6]">
-                                        $100
+                                        ${booking.totalPrice || 0}
                                     </h2>
                                 </div>
 
@@ -139,11 +133,13 @@ const MyBookingsPage = async () => {
 
                                     <Link href={`/rooms/${booking.roomId}`}>
                                         <Button className="rounded-2xl bg-[#14B8A6] hover:bg-[#0F766E] text-white text-sm font-semibold transition-all">
-                                           <Eye></Eye> View
+                                            <Eye /> View
                                         </Button>
                                     </Link>
 
-                                    {true && <DeleteBooking bookingId={booking._id} />}
+                                    {/* ALWAYS SHOW CANCEL */}
+                                    <CancelBooking bookingId={booking._id} />
+
                                 </div>
 
                             </li>

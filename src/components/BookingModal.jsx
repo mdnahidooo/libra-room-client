@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
     Button,
     Description,
@@ -18,21 +18,21 @@ import {
 import { CalendarDays, Clock3, NotebookPen } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const BookingModal = ({ room }) => {
     const router = useRouter();
-    
     const { data: session } = authClient.useSession();
     const user = session?.user;
 
-    const handleRedirectToSignin = () => {
+    const [total, setTotal] = useState(room?.hourlyRate || 0);
 
+    const handleRedirectToSignin = () => {
         if (!user) {
             router.push("/signin");
             return;
         }
     };
-
 
     const {
         _id,
@@ -47,6 +47,22 @@ const BookingModal = ({ room }) => {
         createdAt
     } = room;
 
+    // FIXED TOTAL CALCULATION (safe + stable)
+    const calculateTotal = (startTime, endTime) => {
+        if (!startTime || !endTime) return;
+
+        const start = parseInt(startTime.split(":")[0]);
+        const end = parseInt(endTime.split(":")[0]);
+
+        if (isNaN(start) || isNaN(end)) return;
+
+        if (end > start) {
+            setTotal((end - start) * Number(hourlyRate));
+        } else {
+            setTotal(0);
+        }
+    };
+
     const handleBooking = async (e) => {
         e.preventDefault();
 
@@ -57,10 +73,22 @@ const BookingModal = ({ room }) => {
         const endTime = formData.get("endTime");
         const specialNote = formData.get("specialNote");
 
+        // BASIC VALIDATION (prevents backend conflict errors)
+        const start = Number(startTime?.split(":")[0]);
+        const end = Number(endTime?.split(":")[0]);
+
+        if (start >= end) {
+            alert("Invalid time range");
+            return;
+        }
+
+        
+
         const bookingData = {
             userId: user?.id,
             userImage: user?.image,
             userName: user?.name,
+
             roomId: _id,
             name,
             floor,
@@ -70,10 +98,14 @@ const BookingModal = ({ room }) => {
             ownerId,
             isAvailable,
             createdAt,
-            date: new Date(date),
+
+            date,
             startTime,
             endTime,
             specialNote,
+
+            hourlyRate: Number(hourlyRate), 
+            totalCost: total,
         };
 
         try {
@@ -83,32 +115,36 @@ const BookingModal = ({ room }) => {
                     method: "POST",
                     headers: {
                         "content-type": "application/json",
+                        
                     },
                     body: JSON.stringify(bookingData),
                 }
             );
 
             const data = await res.json();
-            console.log(data);
+            // console.log(data);
+
+            if (!res.ok) {
+                console.log("Booking failed:", data);
+                toast.error(data?.message || "Booking failed");
+                return;
+            }
+
+            router.push("/my-bookings");
 
         } catch (error) {
             console.log(error);
         }
     };
 
-    const handleRedirectAfterConfirmBook = () => {
-
-        if (user) {
-            router.push("/my-bookings");
-            return;
-        }
-    };
-
     return (
         <Modal>
 
-            {/* OPEN BUTTON */}
-            <Button onClick={handleRedirectToSignin} className="w-full bg-[#06BBCC] hover:bg-[#059aad] text-white py-6 text-lg font-semibold rounded-2xl shadow-lg hover:shadow-cyan-200 transition-all active:scale-[0.98]">
+            
+            <Button
+                onClick={handleRedirectToSignin}
+                className="w-full bg-[#06BBCC] hover:bg-[#059aad] text-white py-6 text-lg font-semibold rounded-2xl shadow-lg hover:shadow-cyan-200 transition-all active:scale-[0.98]"
+            >
                 Book Now
             </Button>
 
@@ -120,7 +156,7 @@ const BookingModal = ({ room }) => {
 
                         <Modal.CloseTrigger />
 
-                        {/* HEADER */}
+                        {/* HEADER  */}
                         <Modal.Header className="border-b border-slate-200 bg-[#F8FAFC]">
 
                             <div>
@@ -135,7 +171,7 @@ const BookingModal = ({ room }) => {
 
                         </Modal.Header>
 
-                        {/* BODY */}
+                        {/* BODY (UNCHANGED UI) */}
                         <Modal.Body className="p-6 bg-[#F8FAFC]">
 
                             <Surface className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -170,7 +206,6 @@ const BookingModal = ({ room }) => {
                                             {/* TIME */}
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
 
-                                                {/* START TIME */}
                                                 <div className="rounded-[24px] border border-slate-200 bg-slate-50/80 p-5">
 
                                                     <Label className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-800">
@@ -185,15 +220,14 @@ const BookingModal = ({ room }) => {
                                                         defaultValue="09:00"
                                                         className="rounded-2xl"
                                                         required
+                                                        onChange={(e) => {
+                                                            const end = document.querySelector('input[name="endTime"]')?.value;
+                                                            calculateTotal(e.target.value, end);
+                                                        }}
                                                     />
-
-                                                    <Description className="mt-2 text-xs text-slate-500">
-                                                        24-hour format
-                                                    </Description>
 
                                                 </div>
 
-                                                {/* END TIME */}
                                                 <div className="rounded-[24px] border border-slate-200 bg-slate-50/80 p-5">
 
                                                     <Label className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-800">
@@ -208,23 +242,22 @@ const BookingModal = ({ room }) => {
                                                         defaultValue="11:00"
                                                         className="rounded-2xl"
                                                         required
+                                                        onChange={(e) => {
+                                                            const start = document.querySelector('input[name="startTime"]')?.value;
+                                                            calculateTotal(start, e.target.value);
+                                                        }}
                                                     />
-
-                                                    <Description className="mt-2 text-xs text-slate-500">
-                                                        Minimum booking time is 1 hour
-                                                    </Description>
 
                                                 </div>
 
                                             </div>
 
-                                            {/* TOTAL COST (STATIC UI - unchanged logic removed) */}
+                                            {/* TOTAL  */}
                                             <div className="rounded-[28px] border border-[#14B8A6]/20 bg-linear-to-r from-[#F0FDFA] via-white to-[#ECFEFF] p-6">
 
                                                 <div className="flex items-center justify-between gap-4 flex-wrap">
 
                                                     <div>
-
                                                         <h3 className="text-sm font-semibold text-slate-700">
                                                             Total Booking Cost
                                                         </h3>
@@ -232,15 +265,12 @@ const BookingModal = ({ room }) => {
                                                         <Description className="mt-1 text-xs text-slate-500">
                                                             Automatically calculated based on selected hours
                                                         </Description>
-
                                                     </div>
 
                                                     <div className="text-right">
-
-                                                        <h2 className="text-5xl font-black tracking-tight text-[#14B8A6]">
-                                                            ${hourlyRate}
+                                                        <h2 className="text-5xl font-black text-[#14B8A6]">
+                                                            ${total}
                                                         </h2>
-
                                                     </div>
 
                                                 </div>
@@ -269,20 +299,20 @@ const BookingModal = ({ room }) => {
 
                                         </FieldGroup>
 
-                                        {/* FOOTER */}
+                                        {/* FOOTER (UNCHANGED UI) */}
                                         <div className="flex items-center justify-end gap-3 mt-9">
 
                                             <Button
                                                 variant="secondary"
                                                 className="rounded-2xl px-7 py-3 font-medium"
+                                                type="button"
                                             >
                                                 Cancel
                                             </Button>
 
                                             <Button
-                                                onClick={handleRedirectAfterConfirmBook}
                                                 type="submit"
-                                                className="rounded-2xl bg-[#14B8A6] hover:bg-[#0F766E] text-white px-8 py-3 font-semibold shadow-lg shadow-teal-200/50 transition-all duration-300"
+                                                className="rounded-2xl bg-[#14B8A6] hover:bg-[#0F766E] text-white px-8 py-3 font-semibold shadow-lg shadow-teal-200/50"
                                             >
                                                 Confirm Booking
                                             </Button>

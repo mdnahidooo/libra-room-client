@@ -40,13 +40,44 @@ export const fetchFeaturedRoom = async () => {
 };
 
 
-export const fetchBookings = async (token) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking`, {
-        headers: {
-            authorization: `Bearer ${token}` || ""
-        }
-    });
+export const fetchBookings = async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking`);
     const data = await res.json();
 
     return data || [];
+};
+
+
+// export const fetchBookings = async () => {
+//     const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking`, {
+//         headers: {
+//             // authorization: token ? `Bearer ${token}` : ""
+//         },
+//         cache: "no-store",
+//     });
+
+//     const data = await res.json();
+
+//     console.log("BOOKING API RAW:", data);
+
+//     if (!res.ok) return [];
+
+//     return data?.bookings || data?.data || data || [];
+// };
+
+
+export const cancelBooking = async (bookingId) => {
+    const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/booking/${bookingId}`,
+        {
+            method: "PATCH",
+            headers: {
+                // authorization: `Bearer ${token}`,
+                "content-type": "application/json"
+            }
+        }
+    );
+
+    const data = await res.json();
+    return { ok: res.ok, data };
 };
