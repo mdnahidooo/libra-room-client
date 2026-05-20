@@ -24,13 +24,12 @@ import { useRouter } from "next/navigation";
 
 
 const AddRoomPage = () => {
-    const router = useRouter();
+    const router = useRouter(); 
 
     const onSubmit = async (e) => {
         e.preventDefault();
 
         const formData = new FormData(e.currentTarget);
-
         const room = Object.fromEntries(formData.entries());
 
         room.amenities = formData.getAll("amenities");

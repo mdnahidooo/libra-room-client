@@ -5,9 +5,6 @@ import { FaUsers } from "react-icons/fa";
 import { MdMeetingRoom, MdOutlineAttachMoney } from "react-icons/md";
 import { fetchRooms, fetchSingleRoom } from "@/lib/data/data";
 import BookingModal from "@/components/BookingModal";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
-
 
 
 
@@ -44,13 +41,8 @@ export async function generateMetadata({ params }) {
 const RoomDetailPage = async ({ params }) => {
     const { roomId } = await params;
 
-    //for jwt:
-    const { token } = await auth.api.getToken({
-        headers: await headers()
-    })
-    // console.log(token);
 
-    const room = await fetchSingleRoom(roomId, token); // , token parameter hobe
+    const room = await fetchSingleRoom(roomId);
 
     if (!room) {
         return (
