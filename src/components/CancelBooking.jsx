@@ -4,7 +4,7 @@ import { TrashBin } from "@gravity-ui/icons";
 import { AlertDialog, Button } from "@heroui/react";
 import { toast } from "react-toastify";
 
-const CancelBooking = ({ bookingId }) => {
+const CancelBooking = ({ bookingId, token }) => {
 
     const handleCancelBooking = async () => {
 
@@ -14,6 +14,7 @@ const CancelBooking = ({ bookingId }) => {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
+                    authorization: `Bearer ${token}`
                 },
             }
         );

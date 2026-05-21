@@ -141,7 +141,7 @@ const MyBookingsPage = async () => {
                                     </Link>
 
                                     {/* ALWAYS SHOW CANCEL */}
-                                    <CancelBooking bookingId={booking._id} />
+                                    <CancelBooking bookingId={booking._id} token={token} />
 
                                 </div>
 

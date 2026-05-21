@@ -8,7 +8,7 @@ The platform also supports **secure JWT authentication with HTTP-only cookies**,
 
 ## 🌐 Live URL
 
-👉 https://your-live-link-here.com  
+👉 https://libra-room-client.vercel.app/  
 
 ---
 
@@ -210,9 +210,9 @@ The goal of **LibraRoom** is to create a smart and secure study room booking sys
 
 ## 📬 Submission
 
-- 🌐 **Live Link:** https://your-live-link-here.com  
-- 💻 **Client Repo:** https://github.com/your-username/libraroom-client  
-- 🖥️ **Server Repo:** https://github.com/your-username/libraroom-server  
+- 🌐 **Live Link:** https://libra-room-client.vercel.app/ 
+- 💻 **Client Repo:** https://github.com/mdnahidooo/libra-room-client 
+- 🖥️ **Server Repo:** https://github.com/mdnahidooo/libra-room-server 
 
 
 ---
