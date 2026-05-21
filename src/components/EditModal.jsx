@@ -29,9 +29,6 @@ export function EditModal({ room, token }) {
     const onSubmit = async (e) => {
         e.preventDefault();
 
-        //for jwt:
-
-
         const formData = new FormData(e.currentTarget);
         const updatedRoom = Object.fromEntries(formData.entries());
 
