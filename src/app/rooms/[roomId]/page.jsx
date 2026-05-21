@@ -1,13 +1,9 @@
-
 import Image from "next/image";
 import { Card, Chip } from "@heroui/react";
 import { FaUsers } from "react-icons/fa";
 import { MdMeetingRoom, MdOutlineAttachMoney } from "react-icons/md";
 import { fetchRooms, fetchSingleRoom } from "@/lib/data/data";
 import BookingModal from "@/components/BookingModal";
-
-
-
 
 export async function generateMetadata({ params }) {
     const rooms = await fetchRooms();
@@ -35,12 +31,8 @@ export async function generateMetadata({ params }) {
     };
 }
 
-
-
-
 const RoomDetailPage = async ({ params }) => {
     const { roomId } = await params;
-
 
     const room = await fetchSingleRoom(roomId);
 
@@ -68,17 +60,14 @@ const RoomDetailPage = async ({ params }) => {
                             className="object-cover rounded-2xl"
                         />
 
-                        {/* soft overlay */}
                         <div className="absolute inset-0 bg-linear-to-t from-black/40 via-black/10 to-transparent" />
 
-                        {/* floating badge */}
                         <div className="absolute top-5 left-5">
                             <Chip className="bg-white/90 text-[#3F4255] border border-[#d8edf0]">
                                 Floor {room.floor}
                             </Chip>
                         </div>
 
-                        {/* capacity badge */}
                         <div className="absolute bottom-5 left-5">
                             <Chip className="bg-[#06BBCC] text-white shadow-lg flex items-center gap-1">
                                 <FaUsers className="text-sm" />
@@ -90,21 +79,20 @@ const RoomDetailPage = async ({ params }) => {
                     {/* RIGHT INFO SECTION */}
                     <div className="p-8 flex flex-col justify-between">
 
-                        {/* TOP CONTENT */}
                         <div className="space-y-5">
 
-                            {/* TITLE */}
                             <h1 className="text-3xl font-bold text-[#3F4255] leading-snug">
                                 {room.name}
                             </h1>
 
-                            {/* PRICE */}
-                            <div className="flex items-center gap-2">
-                                <MdOutlineAttachMoney className="text-[#06BBCC] text-xl" />
-                                <span className="text-2xl font-bold text-[#06BBCC]">
+                            <div className="flex items-end gap-2">
+                                <span className="text-3xl font-bold text-[#06BBCC] leading-none">
                                     ${room.hourlyRate}
                                 </span>
-                                <span className="text-sm text-gray-500">/ hour</span>
+
+                                <span className="text-xs bg-[#E6FAFB] text-[#06BBCC] px-2 py-0.5 rounded-full mb-1">
+                                    /hr
+                                </span>
                             </div>
 
                             {/* META CHIPS */}
@@ -120,12 +108,10 @@ const RoomDetailPage = async ({ params }) => {
                                 </Chip>
                             </div>
 
-                            {/* DESCRIPTION */}
                             <p className="text-[#3F4255] leading-relaxed text-sm md:text-base">
                                 {room.description}
                             </p>
 
-                            {/* AMENITIES */}
                             <div>
                                 <p className="font-semibold text-[#3F4255] mb-2">
                                     Amenities
@@ -135,7 +121,7 @@ const RoomDetailPage = async ({ params }) => {
                                     {room.amenities.map((item, i) => (
                                         <Chip
                                             key={i}
-                                            className="bg-white border border-[#d8edf0] text-[#3F4255]"
+                                            className="bg-white border border-[#d8edf0] text-[#3F4255] hover:bg-[#06BBCC] hover:text-white"
                                         >
                                             {item}
                                         </Chip>
@@ -147,14 +133,16 @@ const RoomDetailPage = async ({ params }) => {
                         {/* BOTTOM CTA */}
                         <div className="mt-8">
 
-                            {/* booking count subtle */}
-                            {/* <p className="text-sm text-gray-500 mb-3">
-                                {room.bookingCount || 0} bookings completed
-                            </p> */}
+                            {/* ONLY ADDITION (BOOKING COUNT UI) */}
+                            <div className="mb-3 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F0FBFC] border border-[#d8edf0] hover:bg-[#E6FAFB] transition">
+                                <span className="w-2 h-2 rounded-full bg-[#06BBCC] animate-pulse"></span>
 
+                                <p className="text-sm text-[#3F4255] font-medium">
+                                    {room.bookingCount || 0} bookings completed
+                                </p>
+                            </div>
 
                             <BookingModal room={room}></BookingModal>
-
 
                             <p className="text-xs text-center text-gray-500 mt-3">
                                 Instant booking • No conflicts • Secure system
