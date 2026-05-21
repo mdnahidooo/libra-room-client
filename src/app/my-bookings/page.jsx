@@ -6,15 +6,17 @@ import Image from "next/image";
 import CancelBooking from "@/components/CancelBooking";
 import { Eye } from "@gravity-ui/icons";
 import { fetchBookings } from "@/lib/data/data";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 
 const MyBookingsPage = async () => {
 
-    // const { token } = await auth.api.getToken({
-    //     headers: await headers(),
-    // });
+    const { token } = await auth.api.getToken({
+        headers: await headers(),
+    });
 
-    const bookings = await fetchBookings();
+    const bookings = await fetchBookings(token);
 
     console.log(bookings);
 

@@ -40,8 +40,11 @@ export const fetchFeaturedRoom = async () => {
 };
 
 
-export const fetchBookings = async () => {
+export const fetchBookings = async (token) => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking`, {
+        headers: {
+            authorization: `Bearer ${token}`
+        },
         cache: "no-store"
     });
     const data = await res.json();
