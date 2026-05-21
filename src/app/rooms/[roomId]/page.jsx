@@ -148,9 +148,9 @@ const RoomDetailPage = async ({ params }) => {
                         <div className="mt-8">
 
                             {/* booking count subtle */}
-                            <p className="text-sm text-gray-500 mb-3">
+                            {/* <p className="text-sm text-gray-500 mb-3">
                                 {room.bookingCount || 0} bookings completed
-                            </p>
+                            </p> */}
 
 
                             <BookingModal room={room}></BookingModal>
