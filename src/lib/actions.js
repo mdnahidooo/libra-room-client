@@ -15,6 +15,7 @@ export const deleteRoom = async (roomId, token) => {
     if (data.deletedCount > 0) {
         revalidatePath("/my-listings");
         revalidatePath("/rooms");
+        revalidatePath("/");
     }
 
     return data;
