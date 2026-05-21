@@ -85,14 +85,14 @@ const RoomDetailPage = async ({ params }) => {
                                 {room.name}
                             </h1>
 
-                            <div className="flex items-end gap-2">
-                                <span className="text-3xl font-bold text-[#06BBCC] leading-none">
+                            <div>
+                                <p className="text-xs text-gray-500">Hourly Rate</p>
+                                <p className="text-3xl font-semibold text-[#06BBCC]">
                                     ${room.hourlyRate}
-                                </span>
-
-                                <span className="text-xs bg-[#E6FAFB] text-[#06BBCC] px-2 py-0.5 rounded-full mb-1">
-                                    /hr
-                                </span>
+                                    <span className="text-xs text-gray-500 font-normal">
+                                        /hr
+                                    </span>
+                                </p>
                             </div>
 
                             {/* META CHIPS */}
