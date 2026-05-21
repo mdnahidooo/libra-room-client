@@ -40,6 +40,7 @@ const MyBookingsPage = async () => {
                     </p>
                 </div>
 
+                
                 {/* LIST */}
                 <ul className="list bg-white rounded-[32px] border border-[#d8edf0] shadow-sm overflow-hidden">
 
@@ -149,6 +150,24 @@ const MyBookingsPage = async () => {
                         );
                     })}
                 </ul>
+
+                {bookings.length === 0 && (
+                    <div className="bg-white border border-[#d8edf0] rounded-[32px] shadow-sm p-10 text-center my-6">
+                        <h2 className="text-2xl font-black text-[#3F4255]">
+                            No Bookings Yet
+                        </h2>
+
+                        <p className="text-sm text-[#667085] mt-2">
+                            You haven’t booked any rooms yet. Start by exploring available rooms and make your first booking.
+                        </p>
+
+                        <Link href="/rooms">
+                            <Button className="mt-5 bg-[#14B8A6] hover:bg-[#0F766E] text-white font-semibold rounded-2xl">
+                                Browse Rooms
+                            </Button>
+                        </Link>
+                    </div>
+                )}
             </div>
         </div>
     );

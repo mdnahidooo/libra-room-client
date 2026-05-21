@@ -47,7 +47,7 @@ const BookingModal = ({ room }) => {
         createdAt
     } = room;
 
-    // FIXED TOTAL CALCULATION (safe + stable)
+    // total count
     const calculateTotal = (startTime, endTime) => {
         if (!startTime || !endTime) return;
 
@@ -239,7 +239,7 @@ const BookingModal = ({ room }) => {
                                                         type="time"
                                                         name="endTime"
                                                         step="3600"
-                                                        defaultValue="11:00"
+                                                        defaultValue="10:00"
                                                         className="rounded-2xl"
                                                         required
                                                         onChange={(e) => {
