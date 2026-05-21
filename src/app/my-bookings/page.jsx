@@ -33,7 +33,7 @@ const MyBookingsPage = async () => {
                         My Bookings
                     </h1>
                     <p className="text-sm text-[#667085] mt-2">
-                        Manage your booked study rooms
+                        Manage your booked study room
                     </p>
                 </div>
 
