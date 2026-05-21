@@ -1,3 +1,4 @@
+// export const dynamic = 
 import React from "react";
 import { Chip, Button } from "@heroui/react";
 import Link from "next/link";
