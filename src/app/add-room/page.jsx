@@ -21,10 +21,11 @@ import {
 } from "@heroui/react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 
 
 const AddRoomPage = () => {
-    const router = useRouter(); 
+    const router = useRouter();
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -37,6 +38,7 @@ const AddRoomPage = () => {
         // console.log("ROOM DATA:", room);
 
         try {
+            const { data: tokenData } = await authClient.token()
 
             const res = await fetch(
                 `${process.env.NEXT_PUBLIC_SERVER_URL}/rooms`,
@@ -44,6 +46,7 @@ const AddRoomPage = () => {
                     method: "POST",
                     headers: {
                         "content-type": "application/json",
+                        authorization: `Bearer ${tokenData?.token}`
                     },
                     body: JSON.stringify(room),
                 }
@@ -59,7 +62,7 @@ const AddRoomPage = () => {
             } else {
                 toast.error("Failed to add room!");
             }
-            
+
 
         } catch (error) {
 

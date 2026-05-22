@@ -82,7 +82,7 @@ const BookingModal = ({ room }) => {
             return;
         }
 
-        
+
 
         const bookingData = {
             userId: user?.id,
@@ -104,18 +104,19 @@ const BookingModal = ({ room }) => {
             endTime,
             specialNote,
 
-            hourlyRate: Number(hourlyRate), 
+            hourlyRate: Number(hourlyRate),
             totalCost: total,
         };
 
         try {
+            const { data: tokenData } = await authClient.token()
             const res = await fetch(
                 `${process.env.NEXT_PUBLIC_SERVER_URL}/booking`,
                 {
                     method: "POST",
                     headers: {
                         "content-type": "application/json",
-                        
+                        authorization: `Bearer ${tokenData?.token}`
                     },
                     body: JSON.stringify(bookingData),
                 }
@@ -140,7 +141,7 @@ const BookingModal = ({ room }) => {
     return (
         <Modal>
 
-            
+
             <Button
                 onClick={handleRedirectToSignin}
                 className="w-full bg-[#06BBCC] hover:bg-[#059aad] text-white py-6 text-lg font-semibold rounded-2xl shadow-lg hover:shadow-cyan-200 transition-all active:scale-[0.98]"
