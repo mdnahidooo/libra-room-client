@@ -6,6 +6,13 @@ The platform also supports **secure JWT authentication with HTTP-only cookies**,
 
 ---
 
+## 📸 Project Screenshot
+
+<img src="./public/assets/images/LibraRoom.png" alt="Project Screenshot" />
+
+
+---
+
 ## 🌐 Live URL
 
 👉 https://libra-room-client.vercel.app/  
